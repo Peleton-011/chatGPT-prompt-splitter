@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import translate from "../translate";
 import promptsImport from "../assets/prompts.json";
+import languages from "../assets/languages.json";
 
 type PromptLanguage = {
 	initialPrompt: string;
@@ -18,7 +19,8 @@ const prompts: Prompts = promptsImport;
 const Splitter = () => {
 	const [text, setText] = useState<string>("");
 	const [chunks, setChunks] = useState<string[]>([]);
-	const [textLanguage, setTextLanguage] = useState<string>("");
+	const [textLanguage, setTextLanguage] = useState<string>("en");
+    const [targetLanguage, setTargetLanguage] = useState<string>("");
 
 	const [promptList, setPromptList] = useState<PromptLanguage>(prompts.en);
 	console.log(promptList);
@@ -67,6 +69,7 @@ const Splitter = () => {
 						});
 					}
 			  );
+        setTargetLanguage(textLanguage)
 		console.log(promptList);
 	}, [textLanguage]);
 
@@ -108,6 +111,16 @@ const Splitter = () => {
 				rows={10}
 				cols={50}
 			/>
+			<>
+				<label htmlFor="languages">Choose a language:</label>
+				<select id="languages" name="languages" value={targetLanguage} onChange={(e) => setTargetLanguage(e.target.value)}>
+					{languages.map((language, index) => (
+						<option key={index} value={language.code}>
+							{language.name}
+						</option>
+					))}
+				</select>
+			</>
 			<button onClick={handleSplit}>Split Text</button>
 			<div>
 				{chunks.map((chunk: string, index: number) => (
