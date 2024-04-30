@@ -1,0 +1,10 @@
+{
+
+	"en": {
+		"initialPrompt": "The total length of the content that I want to send you is too large to send in only one piece. To send you that content, I will follow this rule:\n[START PART 1/10]\nthis is the content of the part 1 out of 10 in total\n[END PART 1/10]\n\nThen you just answer: \"Received part 1/10\"\n\nAnd when I tell you \"ALL PARTS SENT\", then you can continue processing the data and answering my requests.",
+		"startPart": "Do not answer yet. This is just another part of the text I want to send you. Just receive and acknowledge as \"Part 1/2 received\" and wait for the next part.\n[START PART 1/2]",
+		"endPart": "[END PART 1/2]\nRemember not to answer yet. Just acknowledge you received this part with the message \"Part 1/2 received\" and wait for the next part.",
+		"startFinalPart": "[START PART 2/2]",
+		"endFinalPart": "[END PART 2/2]ALL PARTS SENT. Now you can continue processing the request."
+	}
+}
