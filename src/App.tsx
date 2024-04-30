@@ -1,11 +1,11 @@
 import "./App.css";
-import Translator from "./components/Translator";
+import Splitter from "./components/Splitter";
 
 function App() {
 
 	return (
 		<>
-			<Translator />
+            <Splitter />
 		</>
 	);
 }
