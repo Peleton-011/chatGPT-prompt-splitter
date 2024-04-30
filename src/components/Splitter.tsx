@@ -37,34 +37,36 @@ const Splitter = () => {
 			);
 		}
 
-		getTranslatePrompts().then(
-			(translatedPrompts: Promise<PromptLanguage>[]) => {
-				console.log(translatedPrompts);
-				Promise.all(
-					translatedPrompts.map((p) => p.catch((e) => e))
-				).then((results) => {
-					// Check for errors
-					const errors = results.filter(
-						(result) => result instanceof Error
-					);
-					if (errors.length > 0) {
-						// Handle errors
-						console.error("There was an error:", errors);
-					} else {
-						// All promises resolved successfully
-						console.log("All promises resolved:", results);
-					}
+		prompts[textLanguage]
+			? setPromptList(prompts[textLanguage])
+			: getTranslatePrompts().then(
+					(translatedPrompts: Promise<PromptLanguage>[]) => {
+						console.log(translatedPrompts);
+						Promise.all(
+							translatedPrompts.map((p) => p.catch((e) => e))
+						).then((results) => {
+							// Check for errors
+							const errors = results.filter(
+								(result) => result instanceof Error
+							);
+							if (errors.length > 0) {
+								// Handle errors
+								console.error("There was an error:", errors);
+							} else {
+								// All promises resolved successfully
+								console.log("All promises resolved:", results);
+							}
 
-					setPromptList({
-						initialPrompt: results[0],
-						startPart: results[1],
-						endPart: results[2],
-						startFinalPart: results[3],
-						endFinalPart: results[4],
-					});
-				});
-			}
-		);
+							setPromptList({
+								initialPrompt: results[0],
+								startPart: results[1],
+								endPart: results[2],
+								startFinalPart: results[3],
+								endFinalPart: results[4],
+							});
+						});
+					}
+			  );
 		console.log(promptList);
 	}, [textLanguage]);
 
