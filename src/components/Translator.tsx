@@ -6,13 +6,13 @@ const Translator = () => {
 	const [targetLanguage, setTargetLanguage] = useState("en");
 	const [translatedText, setTranslatedText] = useState("");
 
-	async function translateText() {
+	async function translateText(text: string, target: string ) {
 		const options = {
 			method: "POST",
 			url: "https://microsoft-translator-text.p.rapidapi.com/translate",
 			params: {
 				"api-version": "3.0",
-				"to[0]": targetLanguage,
+				"to[0]": target,
 				textType: "plain",
 				profanityAction: "NoAction",
 			},
@@ -24,7 +24,7 @@ const Translator = () => {
 			},
 			data: [
 				{
-					Text: inputText,
+					Text: text,
 				},
 			],
 		};
@@ -55,7 +55,7 @@ const Translator = () => {
 				<option value="fr">French</option>
 				<option value="es">Spanish</option>
 			</select>
-			<button onClick={translateText}>Translate</button>
+			<button onClick={() => translateText(inputText, targetLanguage)}>Translate</button>
 			<h2>Translated Text</h2>
 			<div id="translatedText">{translatedText}</div>
 		</div>
