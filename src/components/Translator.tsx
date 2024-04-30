@@ -1,34 +1,41 @@
 import { useState } from "react";
+import axios from "axios";
 
 const Translator = () => {
 	const [inputText, setInputText] = useState("");
 	const [targetLanguage, setTargetLanguage] = useState("en");
 	const [translatedText, setTranslatedText] = useState("");
 
-	function translateText() {
-		// Google Translate API endpoint
-		const endpoint =
-			"https://translation.googleapis.com/language/translate/v2?key=YOUR_API_KEY";
-
-		// Construct request parameters
-		var params = {
-			q: inputText,
-			target: targetLanguage,
+	async function translateText() {
+		const options = {
+			method: "POST",
+			url: "https://microsoft-translator-text.p.rapidapi.com/translate",
+			params: {
+				"api-version": "3.0",
+				"to[0]": targetLanguage,
+				textType: "plain",
+				profanityAction: "NoAction",
+			},
+			headers: {
+				"content-type": "application/json",
+				"X-RapidAPI-Key":
+					"eeb86a1312msh5854a4f02f2b24dp1efa14jsn77a77b7a3088",
+				"X-RapidAPI-Host": "microsoft-translator-text.p.rapidapi.com",
+			},
+			data: [
+				{
+					Text: inputText,
+				},
+			],
 		};
 
-		// Make POST request to Google Translate API
-		fetch(endpoint, {
-			method: "POST",
-			body: JSON.stringify(params),
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				// Display translated text
-				setTranslatedText(data.translations[0].translatedText);
-			})
-			.catch((error) => {
-				console.error("Error:", error);
-			});
+		try {
+			const response = await axios.request(options);
+			console.log(response.data);
+			setTranslatedText(response.data[0].translations[0].text);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 	return (
 		<div>
