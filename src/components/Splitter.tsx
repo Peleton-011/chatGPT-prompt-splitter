@@ -20,12 +20,12 @@ const Splitter = () => {
 	const [text, setText] = useState<string>("");
 	const [chunks, setChunks] = useState<string[]>([]);
 	const [textLanguage, setTextLanguage] = useState<string>("en");
-    const [targetLanguage, setTargetLanguage] = useState<string>("");
+	const [targetLanguage, setTargetLanguage] = useState<string>("");
 
 	const [promptList, setPromptList] = useState<PromptLanguage>(prompts.en);
 	console.log(promptList);
 	const [promptLengths, setPromptLengths] = useState<number[]>(
-		Object.values(promptList).map((prompt: string) => prompt.length)
+		[3, 2]//Object.values(promptList).map((prompt: string) => prompt.length)
 	);
 
 	translate.getLanguage(text).then((language) => {
@@ -33,14 +33,18 @@ const Splitter = () => {
 	});
 
 	useEffect(() => {
+		setTargetLanguage(textLanguage);
+	}, [textLanguage]);
+
+	useEffect(() => {
 		async function getTranslatePrompts() {
-			return Object.values(promptList).map((prompt: string) =>
-				translate.translateText(prompt, textLanguage)
+			return Object.values(prompts.en).map((prompt: string) =>
+				translate.translateText(prompt, targetLanguage)
 			);
 		}
 
-		prompts[textLanguage]
-			? setPromptList(prompts[textLanguage])
+		prompts[targetLanguage]
+			? setPromptList(prompts[targetLanguage])
 			: getTranslatePrompts().then(
 					(translatedPrompts: Promise<PromptLanguage>[]) => {
 						console.log(translatedPrompts);
@@ -69,9 +73,8 @@ const Splitter = () => {
 						});
 					}
 			  );
-        setTargetLanguage(textLanguage)
 		console.log(promptList);
-	}, [textLanguage]);
+	}, [targetLanguage]);
 
 	const splitText = (inputText: string) => {
 		const chunkSize = 15000;
@@ -113,7 +116,12 @@ const Splitter = () => {
 			/>
 			<>
 				<label htmlFor="languages">Choose a language:</label>
-				<select id="languages" name="languages" value={targetLanguage} onChange={(e) => setTargetLanguage(e.target.value)}>
+				<select
+					id="languages"
+					name="languages"
+					value={targetLanguage}
+					onChange={(e) => setTargetLanguage(e.target.value)}
+				>
 					{languages.map((language, index) => (
 						<option key={index} value={language.code}>
 							{language.name}
@@ -126,7 +134,7 @@ const Splitter = () => {
 				{chunks.map((chunk: string, index: number) => (
 					<div key={index}>
 						<h3>Chunk {index + 1}</h3>
-						<p>{chunk}</p>
+						<p>{chunk + promptList.startFinalPart}</p>
 					</div>
 				))}
 			</div>
