@@ -1,8 +1,14 @@
 import { useState } from "react";
+import translate from "../translate";
 
 const Splitter = () => {
 	const [text, setText] = useState<string>("");
 	const [chunks, setChunks] = useState<string[]>([]);
+    const [textLanguage, setTextLanguage] = useState<string>("");
+
+    translate.getLanguage(text).then((language) => {
+        setTextLanguage(language);
+    })
 
 	const splitText = (inputText: string) => {
 		const chunkSize = 15000;
@@ -51,6 +57,7 @@ const Splitter = () => {
 					</div>
 				))}
 			</div>
+            {textLanguage && <p>Language: {textLanguage}</p>}
 		</div>
 	);
 };

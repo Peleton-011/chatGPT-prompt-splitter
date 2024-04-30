@@ -1,6 +1,33 @@
 import axios from "axios";
 
-export default async function translateText(text: string, target: string) {
+async function getLanguage(text: string) {
+    const options = {
+        method: 'POST',
+        url: 'https://microsoft-translator-text.p.rapidapi.com/Detect',
+        params: {
+          'api-version': '3.0'
+        },
+        headers: {
+          'content-type': 'application/json',
+          'X-RapidAPI-Key': 'eeb86a1312msh5854a4f02f2b24dp1efa14jsn77a77b7a3088',
+          'X-RapidAPI-Host': 'microsoft-translator-text.p.rapidapi.com'
+        },
+        data: [
+          {
+            Text: text
+          }
+        ]
+      };
+      
+      try {
+          const response = await axios.request(options);
+          return response.data[0].language;
+      } catch (error) {
+          console.error(error);
+      }
+}
+
+async function translateText(text: string, target: string) {
 	const options = {
 		method: "POST",
 		url: "https://microsoft-translator-text.p.rapidapi.com/translate",
@@ -30,3 +57,8 @@ export default async function translateText(text: string, target: string) {
 		console.error(error);
 	}
 }
+
+export default {
+	translateText,
+    getLanguage
+};

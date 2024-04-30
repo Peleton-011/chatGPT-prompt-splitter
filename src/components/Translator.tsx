@@ -1,5 +1,7 @@
 import { useState } from "react";
-import translateText from "../translate";
+import translate from "../translate";
+
+const { translateText } = translate;
 
 const Translator = () => {
 	const [inputText, setInputText] = useState("");
