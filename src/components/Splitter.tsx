@@ -37,6 +37,7 @@ const Splitter = () => {
 	}, [textLanguage]);
 
 	useEffect(() => {
+        // alert("translatin to "+ targetLanguage);
 		async function getTranslatePrompts() {
 			return Object.values(prompts.en).map((prompt: string) =>
 				translate.translateText(prompt, targetLanguage)
@@ -95,12 +96,6 @@ const Splitter = () => {
 		setChunks(textChunks);
 	};
 
-	const handleTextChange = (
-		event: React.ChangeEvent<HTMLTextAreaElement>
-	) => {
-		setText(event.target.value);
-	};
-
 	const handleSplit = () => {
 		splitText(text);
 	};
@@ -110,7 +105,7 @@ const Splitter = () => {
 			<textarea
 				placeholder="Enter text to split"
 				value={text}
-				onChange={handleTextChange}
+				onChange={(e) => setText(e.target.value)}
 				rows={10}
 				cols={50}
 			/>
