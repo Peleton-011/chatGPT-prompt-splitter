@@ -88,25 +88,68 @@ const Splitter = () => {
 	}, [promptList]);
 
 	const splitText = (inputText: string) => {
+		//--------
+		translatePrompts();
+		//--------
 
-        //--------
-        translatePrompts()
-        //--------
-
-		const chunkSize = 15000;
+		const chunkSize = 400;
 		const textLength = inputText.length;
-		const numChunks = Math.ceil(textLength / chunkSize);
 
-		const textChunks: string[] = [];
+		console.log(textLength);
+
+		const normalChunkSize =
+			chunkSize - (promptLengths[1] + promptLengths[2]);
+		const lastChunkSize = chunkSize - (promptLengths[3] + promptLengths[4]);
+
+		console.log(lastChunkSize, normalChunkSize);
+
+		const numChunks = Math.ceil(
+			(textLength - lastChunkSize) / normalChunkSize
+		);
+
+		console.log(
+			numChunks,
+			Math.ceil((textLength - lastChunkSize) / normalChunkSize)
+		);
+		const textChunks: string[] = [promptList.initialPrompt];
 		let start = 0;
-		let end = chunkSize;
+		let end = normalChunkSize;
 
 		for (let i = 0; i < numChunks; i++) {
-			const chunk = inputText.substring(start, end);
+			const chunk =
+				promptList.startPart.replace(
+					"001/002",
+					String(i + 1).padStart(3, "0") +
+						"/" +
+						String(numChunks + 1).padStart(3, "0")
+				) +
+				inputText.substring(start, end) +
+				promptList.endPart.replace(
+					"001/002",
+					String(i + 1).padStart(3, "0") +
+						"/" +
+						String(numChunks + 1).padStart(3, "0")
+				);
 			textChunks.push(chunk);
 			start = end;
-			end = start + chunkSize;
+			end = start + normalChunkSize;
 		}
+
+		const chunk =
+			promptList.startFinalPart.replace(
+				"002/002",
+				String(numChunks + 1).padStart(3, "0") +
+					"/" +
+					String(numChunks + 1).padStart(3, "0")
+			) +
+			inputText.substring(start, end + lastChunkSize - normalChunkSize) +
+			promptList.endFinalPart.replace(
+				"002/002",
+				String(numChunks + 1).padStart(3, "0") +
+					"/" +
+					String(numChunks + 1).padStart(3, "0")
+			);
+		textChunks.push(chunk);
 
 		setChunks(textChunks);
 	};
@@ -144,7 +187,7 @@ const Splitter = () => {
 				{chunks.map((chunk: string, index: number) => (
 					<div key={index}>
 						<h3>Chunk {index + 1}</h3>
-						<p>{chunk + promptList.startFinalPart}</p>
+						<p>{chunk}</p>
 					</div>
 				))}
 			</div>

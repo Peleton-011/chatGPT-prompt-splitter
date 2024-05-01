@@ -1,23 +1,23 @@
 {
 	"en": {
-		"initialPrompt": "The total length of the content that I want to send you is too large to send in only one piece. To send you that content, I will follow this rule:\n[START PART 1/10]\nthis is the content of the part 1 out of 10 in total\n[END PART 1/10]\n\nThen you just answer: \"Received part 1/10\"\n\nAnd when I tell you \"ALL PARTS SENT\", then you can continue processing the data and answering my requests.",
-		"startPart": "Do not answer yet. This is just another part of the text I want to send you. Just receive and acknowledge as \"Part 1/2 received\" and wait for the next part.\n[START PART 1/2]",
-		"endPart": "[END PART 1/2]\nRemember not to answer yet. Just acknowledge you received this part with the message \"Part 1/2 received\" and wait for the next part.",
-		"startFinalPart": "[START PART 2/2]",
-		"endFinalPart": "[END PART 2/2]ALL PARTS SENT. Now you can continue processing the request."
+		"initialPrompt": "The total length of the content that I want to send you is too large to send in only one piece. To send you that content, I will follow this rule:\n[START PART 001/010]\nthis is the content of the part 1 out of 10 in total\n[END PART 001/010]\n\nThen you just answer: \"Received part 001/010\"\n\nAnd when I tell you \"ALL PARTS SENT\", then you can continue processing the data and answering my requests.",
+		"startPart": "Do not answer yet. This is just another part of the text I want to send you. Just receive and acknowledge as \"Part 001/002 received\" and wait for the next part.\n[START PART 001/002]",
+		"endPart": "[END PART 001/002]\nRemember not to answer yet. Just acknowledge you received this part with the message \"Part 001/002 received\" and wait for the next part.",
+		"startFinalPart": "[START PART 002/002]",
+		"endFinalPart": "[END PART 002/002]ALL PARTS SENT. Now you can continue processing the request."
 	},
 	"es": {
-		"initialPrompt": "La longitud total del contenido que quiero enviarte es demasiado grande para enviarlo en una sola pieza. Para enviarte ese contenido, seguiré esta regla:\n[INICIO PARTE 1/10]\neste es el contenido de la parte 1 de 10 en total\n[FIN PARTE 1/10]\n\nEntonces solo respondes: \"Recibiste la parte 1/10\"\n\nY cuando te digo \"TODAS LAS PIEZAS ENVIADAS\", entonces podrás seguir procesando los datos y respondiendo a mis solicitudes.",
-		"startPart": "No responda todavía. Esta es solo otra parte del texto que quiero enviarle. Simplemente recíbalo y reconózcalo como \"Parte 1/2 recibida\" y espere la siguiente parte.\n[INICIAR PARTE 1/2] ",
-		"endPart": "[FIN DE PARTE 1/2]\nRecuerde no responder todavía. Simplemente confirme que recibió esta parte con el mensaje \"Parte 1/2 recibida\" y espere la siguiente parte.",
-		"startFinalPart": "[INICIAR PARTE 2/2]",
-		"endFinalPart": "[FIN DE PARTE 2/2]TODAS LAS PIEZAS ENVIADAS. Ahora puede continuar procesando la solicitud"
+		"initialPrompt": "La longitud total del contenido que quiero enviarte es demasiado grande para enviarlo en una sola pieza. Para enviarte ese contenido, seguiré esta regla:\n[INICIO PARTE 001/010]\neste es el contenido de la parte 1 de 10 en total\n[FIN PARTE 001/010]\n\nEntonces solo respondes: \"Recibiste la parte 001/010\"\n\nY cuando te digo \"TODAS LAS PIEZAS ENVIADAS\", entonces podrás seguir procesando los datos y respondiendo a mis solicitudes.",
+		"startPart": "No responda todavía. Esta es solo otra parte del texto que quiero enviarle. Simplemente recíbalo y reconózcalo como \"Parte 001/002 recibida\" y espere la siguiente parte.\n[INICIAR PARTE 001/002] ",
+		"endPart": "[FIN DE PARTE 001/002]\nRecuerde no responder todavía. Simplemente confirme que recibió esta parte con el mensaje \"Parte 001/002 recibida\" y espere la siguiente parte.",
+		"startFinalPart": "[INICIAR PARTE 002/002]",
+		"endFinalPart": "[FIN DE PARTE 002/002]TODAS LAS PIEZAS ENVIADAS. Ahora puede continuar procesando la solicitud"
 	},
 	"ca": {
-		"initialPrompt": "La longitud total del contingut que vull enviar-te és massa gran per enviar-te només una peça. Per enviar-te aquest contingut, seguiré aquesta regla:\n[INICIA LA PART 1/10]\naquest és el contingut de la part 1 de 10 en total\n[FI PART 1/10]\n\nLlavors només respons: \"Rebut part 1/10\"\n\nI quan et dic \"TOTES LES PARTS ENVIATS\", llavors podeu continuar processant les dades i responent a les meves sol·licituds",
-		"startPart": "No respongueu encara. Aquesta és només una part més del text que vull enviar-vos. Només heu de rebre i confirmar com a \"Recepció de la part 1/2\" i esperar a la següent part.\n[INICIA LA PART 1/2] ",
-		"endPart": "[FINA LA PART 1/2]\nRecordeu que encara no heu de respondre. Només heu de confirmar que heu rebut aquesta part amb el missatge \"S'ha rebut la part 1/2\" i espereu la següent part.",
-		"startFinalPart": "[INICIA LA PART 2/2]",
-		"endFinalPart": "[FINA LA PART 2/2] TOTES LES PARTS S'ENVIARON. Ara podeu continuar processant la sol·licitud."
+		"initialPrompt": "La longitud total del contingut que vull enviar-te és massa gran per enviar-te només una peça. Per enviar-te aquest contingut, seguiré aquesta regla:\n[INICIA LA PART 001/010]\naquest és el contingut de la part 1 de 10 en total\n[FI PART 001/010]\n\nLlavors només respons: \"Rebut part 001/010\"\n\nI quan et dic \"TOTES LES PARTS ENVIATS\", llavors podeu continuar processant les dades i responent a les meves sol·licituds",
+		"startPart": "No respongueu encara. Aquesta és només una part més del text que vull enviar-vos. Només heu de rebre i confirmar com a \"Recepció de la part 001/002\" i esperar a la següent part.\n[INICIA LA PART 001/002] ",
+		"endPart": "[FINA LA PART 001/002]\nRecordeu que encara no heu de respondre. Només heu de confirmar que heu rebut aquesta part amb el missatge \"S'ha rebut la part 001/002\" i espereu la següent part.",
+		"startFinalPart": "[INICIA LA PART 002/002]",
+		"endFinalPart": "[FINA LA PART 002/002] TOTES LES PARTS S'ENVIARON. Ara podeu continuar processant la sol·licitud."
 	}
 }
