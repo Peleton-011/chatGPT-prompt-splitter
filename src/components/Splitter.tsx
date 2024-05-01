@@ -3,6 +3,8 @@ import translate from "../translate";
 import promptsImport from "../assets/prompts.json";
 import languages from "../assets/languages.json";
 
+import CopyButton from "./CopyButton";
+
 type PromptLanguage = {
 	initialPrompt: string;
 	startPart: string;
@@ -92,7 +94,7 @@ const Splitter = () => {
 		translatePrompts();
 		//--------
 
-		const chunkSize = 400;
+		const chunkSize = 15000;
 		const textLength = inputText.length;
 
 		console.log(textLength);
@@ -184,12 +186,22 @@ const Splitter = () => {
 			</>
 			<button onClick={handleSplit}>Split Text</button>
 			<div>
-				{chunks.map((chunk: string, index: number) => (
-					<div key={index}>
-						<h3>Chunk {index + 1}</h3>
-						<p>{chunk}</p>
-					</div>
-				))}
+				{chunks.map((chunk: string, index: number) => {
+					return (
+						<CopyButton
+							key={index}
+							text={chunk}
+							name={"Chunk " + (index + 1)}
+						/>
+					);
+				})}
+				{false &&
+					chunks.map((chunk: string, index: number) => (
+						<div key={index}>
+							<h3>Chunk {index + 1}</h3>
+							<p>{chunk}</p>
+						</div>
+					))}
 			</div>
 			{textLanguage && <p>Language: {textLanguage}</p>}
 		</div>
