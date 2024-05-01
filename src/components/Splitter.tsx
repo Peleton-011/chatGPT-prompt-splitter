@@ -25,7 +25,7 @@ const Splitter = () => {
 	const [promptList, setPromptList] = useState<PromptLanguage>(prompts.en);
 	console.log(promptList);
 	const [promptLengths, setPromptLengths] = useState<number[]>(
-		[3, 2]//Object.values(promptList).map((prompt: string) => prompt.length)
+		Array(5).fill(0)
 	);
 
 	translate.getLanguage(text).then((language) => {
@@ -36,8 +36,8 @@ const Splitter = () => {
 		setTargetLanguage(textLanguage);
 	}, [textLanguage]);
 
-	useEffect(() => {
-        // alert("translatin to "+ targetLanguage);
+	function translatePrompts() {
+		// alert("translatin to "+ targetLanguage);
 		async function getTranslatePrompts() {
 			return Object.values(prompts.en).map((prompt: string) =>
 				translate.translateText(prompt, targetLanguage)
@@ -75,9 +75,24 @@ const Splitter = () => {
 					}
 			  );
 		console.log(promptList);
-	}, [targetLanguage]);
+	}
+
+	useEffect(() => {
+		Object.values(promptList).every((prompt) => prompt !== undefined)
+			? setPromptLengths(
+					Object.values(promptList).map(
+						(prompt: string) => prompt.length
+					)
+			  )
+			: setPromptLengths(Array(5).fill(0));
+	}, [promptList]);
 
 	const splitText = (inputText: string) => {
+
+        //--------
+        translatePrompts()
+        //--------
+
 		const chunkSize = 15000;
 		const textLength = inputText.length;
 		const numChunks = Math.ceil(textLength / chunkSize);
