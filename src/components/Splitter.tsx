@@ -24,6 +24,9 @@ const Splitter = () => {
 	const [textLanguage, setTextLanguage] = useState<string>("en");
 	const [targetLanguage, setTargetLanguage] = useState<string>("");
 
+	const [isResponseTooShort, setIsResponseTooShort] =
+		useState<boolean>(false);
+
 	const [promptList, setPromptList] = useState<PromptLanguage>(prompts.en);
 	console.log(promptList);
 	const [promptLengths, setPromptLengths] = useState<number[]>(
@@ -157,6 +160,11 @@ const Splitter = () => {
 	};
 
 	const handleSplit = () => {
+		if (text.length < 15000) {
+			setIsResponseTooShort(true);
+			return;
+		}
+		setIsResponseTooShort(false);
 		splitText(text);
 	};
 
@@ -188,6 +196,11 @@ const Splitter = () => {
 				</select>
 			</>
 			<button onClick={handleSplit}>Split Text</button>
+			{isResponseTooShort && (
+				<h3 style={{ margin: "1rem 0px" }}>
+					Text is too short to split!
+				</h3>
+			)}
 			<div className="grid" style={{ margin: "4rem 0px" }}>
 				{chunks.map((chunk: string, index: number) => {
 					return (
