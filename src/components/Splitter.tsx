@@ -4,6 +4,7 @@ import promptsImport from "../assets/prompts.json";
 import languages from "../assets/languages.json";
 
 import CopyButton from "./CopyButton";
+import CustomDropdown from "./CustomDropdown";
 
 type PromptLanguage = {
 	initialPrompt: string;
@@ -21,6 +22,7 @@ const prompts: Prompts = promptsImport;
 const Splitter = () => {
 	const [text, setText] = useState<string>("");
 	const [chunks, setChunks] = useState<string[]>([]);
+	const [chunkSize, setChunkSize] = useState<number>(15000);
 	const [textLanguage, setTextLanguage] = useState<string>("en");
 	const [targetLanguage, setTargetLanguage] = useState<string>("");
 
@@ -96,8 +98,6 @@ const Splitter = () => {
 		//--------
 		translatePrompts();
 		//--------
-
-		const chunkSize = 15000;
 		const textLength = inputText.length;
 
 		console.log(textLength);
@@ -168,6 +168,11 @@ const Splitter = () => {
 		splitText(text);
 	};
 
+	const options = [
+		{ label: "ChatGPT (15000 characters)", value: "15000" },
+		{ label: "Gemini (20000 characters)", value: "20000" },
+	];
+
 	return (
 		<main className="container">
 			<h1 style={{ margin: "4rem 0px" }}>ChatGPT 🤖 prompt Splitter</h1>
@@ -178,23 +183,32 @@ const Splitter = () => {
 				rows={10}
 				cols={50}
 			/>
-			<>
-				<label htmlFor="languages">Choose a language:</label>
-				<select
-					id="languages"
-					name="languages"
-					value={targetLanguage}
-					onChange={(e) => setTargetLanguage(e.target.value)}
-				>
-					{languages[languages[0].length ? 0 : 1].map(
-						(language, index) => (
-							<option key={index} value={language.code}>
-								{language.name}
-							</option>
-						)
-					)}
-				</select>
-			</>
+			<div className="grid">
+				<div>
+					<label htmlFor="languages">Choose a language:</label>
+					<select
+						id="languages"
+						name="languages"
+						value={targetLanguage}
+						onChange={(e) => setTargetLanguage(e.target.value)}
+					>
+						{languages[languages[0].length ? 0 : 1].map(
+							(language, index) => (
+								<option key={index} value={language.code}>
+									{language.name}
+								</option>
+							)
+						)}
+					</select>
+				</div>
+				<div>
+					<label htmlFor="length">Choose an output length:</label>
+					<CustomDropdown
+						options={options}
+						onSelect={(value) => setChunkSize(Number(value))}
+					/>
+				</div>
+			</div>
 			<button onClick={handleSplit}>Split Text</button>
 			{isResponseTooShort && (
 				<h3 style={{ margin: "1rem 0px" }}>
