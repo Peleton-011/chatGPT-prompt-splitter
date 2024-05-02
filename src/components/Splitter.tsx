@@ -177,11 +177,13 @@ const Splitter = () => {
 					value={targetLanguage}
 					onChange={(e) => setTargetLanguage(e.target.value)}
 				>
-					{languages.map((language, index) => (
-						<option key={index} value={language.code}>
-							{language.name}
-						</option>
-					))}
+					{languages[languages[0].length ? 0 : 1].map(
+						(language, index) => (
+							<option key={index} value={language.code}>
+								{language.name}
+							</option>
+						)
+					)}
 				</select>
 			</>
 			<button onClick={handleSplit}>Split Text</button>
