@@ -161,7 +161,8 @@ const Splitter = () => {
 	};
 
 	return (
-		<div>
+		<main className="container">
+            <h1 style={{margin: "4rem 0px"}}>ChatGPT 🤖 prompt Splitter</h1>
 			<textarea
 				placeholder="Enter text to split"
 				value={text}
@@ -187,7 +188,7 @@ const Splitter = () => {
 				</select>
 			</>
 			<button onClick={handleSplit}>Split Text</button>
-			<div>
+			<div className="grid" style={{margin: "4rem 0px"}}>
 				{chunks.map((chunk: string, index: number) => {
 					return (
 						<CopyButton
@@ -205,8 +206,8 @@ const Splitter = () => {
 						</div>
 					))}
 			</div>
-			{textLanguage && <p>Language: {textLanguage}</p>}
-		</div>
+			{/* {textLanguage && <p>Language: {textLanguage}</p>} */}
+		</main>
 	);
 };
 
