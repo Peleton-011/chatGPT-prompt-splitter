@@ -2,7 +2,7 @@ import React from "react";
 
 interface CopyButtonProps {
 	text: string;
-    name: string;
+	name: string;
 }
 
 const CopyButton: React.FC<CopyButtonProps> = ({ text, name }) => {
@@ -12,10 +12,7 @@ const CopyButton: React.FC<CopyButtonProps> = ({ text, name }) => {
 		navigator.clipboard
 			.writeText(text)
 			.then(() => {
-				setCopied(true);
-				setTimeout(() => {
-					setCopied(false);
-				}, 1500); // Reset copied state after 1.5 seconds
+				setCopied(true); // Reset copied state after 1.5 seconds
 			})
 			.catch((err) => {
 				console.error("Failed to copy: ", err);
@@ -25,9 +22,9 @@ const CopyButton: React.FC<CopyButtonProps> = ({ text, name }) => {
 	return (
 		<button
 			onClick={copyToClipboard}
-			className={"copy-button " + copied ? "copied" : ""}
+			className={"copy-button " + (copied ? "secondary" : "")}
 		>
-			{copied ? "Copied" + name + "!" : "Copy " + name}
+			{copied ? "Copied " + name + "!" : "Copy " + name}
 		</button>
 	);
 };
