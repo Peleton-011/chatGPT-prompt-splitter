@@ -160,7 +160,7 @@ const Splitter = () => {
 	};
 
 	const handleSplit = () => {
-		if (text.length < 15000) {
+		if (text.length < chunkSize) {
 			setIsResponseTooShort(true);
 			return;
 		}
