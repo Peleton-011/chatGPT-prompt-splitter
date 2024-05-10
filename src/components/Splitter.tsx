@@ -35,9 +35,11 @@ const Splitter = () => {
 		Array(5).fill(0)
 	);
 
-	translate.getLanguage(text).then((language) => {
-		setTextLanguage(language);
-	});
+    useEffect(() => {
+        translate.getLanguage(text).then((language) => {
+            setTextLanguage(language);
+        });
+    }, [text]);
 
 	useEffect(() => {
 		setTargetLanguage(textLanguage);
