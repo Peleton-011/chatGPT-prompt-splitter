@@ -32,6 +32,8 @@ const Splitter = () => {
 	const [selectedLanguage, setSelectedLanguage] =
 		useState<string>("autodetect");
 	const [textLanguage, setTextLanguage] = useState<string>("en");
+	const [detectedLanguageName, setDetectedLanguageName] =
+		useState<string>("English");
 
 	const [isResponseTooShort, setIsResponseTooShort] =
 		useState<boolean>(false);
@@ -41,22 +43,30 @@ const Splitter = () => {
 	);
 
 	const languages = [
+        ...languagesImport[0],
 		{ name: "Auto Detect", code: "autodetect", native: "Auto Detect" },
-		...languagesImport[0],
 	] as Language[];
 
-	console.log(languages);
+	// Run language detection when the textarea loses focus
+	const handleBlur = async () => {
+		if (selectedLanguage === "autodetect" && text.trim()) {
+			const detectedCode = await translate.getLanguage(text);
+			setTextLanguage(detectedCode);
 
-	// Update detected language when "autodetect" is selected
+			// Update detected language name
+			const detectedLang = languages.find(
+				(lang) => lang.code === detectedCode
+			);
+			setDetectedLanguageName(detectedLang?.name || "Unknown");
+		}
+	};
+
+	// Update language when a new language is selected
 	useEffect(() => {
-		if (selectedLanguage === "autodetect" && text) {
-			translate
-				.getLanguage(text)
-				.then((language) => setTextLanguage(language));
-		} else if (selectedLanguage !== "autodetect") {
+		if (selectedLanguage !== "autodetect") {
 			setTextLanguage(selectedLanguage);
 		}
-	}, [selectedLanguage, text]);
+	}, [selectedLanguage]);
 
 	// Translate prompts when the language changes
 	useEffect(() => {
@@ -96,7 +106,6 @@ const Splitter = () => {
 
 		if (textLength < chunkSize) {
 			setIsResponseTooShort(true);
-			return;
 		}
 
 		setIsResponseTooShort(false);
@@ -168,6 +177,7 @@ const Splitter = () => {
 				placeholder="Enter text to split"
 				value={text}
 				onChange={(e) => setText(e.target.value)}
+				onBlur={handleBlur}
 				rows={10}
 				cols={50}
 			/>
@@ -180,7 +190,9 @@ const Splitter = () => {
 				>
 					{languageOptions.map((lang, index) => (
 						<option key={index} value={lang.code}>
-							{lang.name}
+							{lang.code === "autodetect"
+								? `Auto Detect (${detectedLanguageName})`
+								: lang.name}
 						</option>
 					))}
 				</select>
