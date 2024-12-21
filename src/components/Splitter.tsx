@@ -116,17 +116,24 @@ const Splitter = () => {
 		let start = 0;
 		let end = normalChunkSize;
 
-		for (let i = 0; i < numChunks; i++) {
+		for (let i = 0; i < numChunks + 1; i++) {
 			const chunk =
-				promptList.startPart.replace(
-					"001/002",
+				promptList[
+					i === numChunks ? "startFinalPart" : "startPart"
+				].replace(
+					/XXX\/XXX/g,
 					`${String(i + 1).padStart(3, "0")}/${String(
 						numChunks + 1
 					).padStart(3, "0")}`
 				) +
-				text.substring(start, end) +
-				promptList.endPart.replace(
-					"001/002",
+				text.substring(
+					start,
+					i === numChunks ? start + lastChunkSize : end
+				) +
+				promptList[
+					i === numChunks ? "endFinalPart" : "endPart"
+				].replace(
+					/XXX\/XXX/g,
 					`${String(i + 1).padStart(3, "0")}/${String(
 						numChunks + 1
 					).padStart(3, "0")}`
@@ -135,22 +142,6 @@ const Splitter = () => {
 			start = end;
 			end = start + normalChunkSize;
 		}
-
-		const finalChunk =
-			promptList.startFinalPart.replace(
-				"002/002",
-				`${String(numChunks + 1).padStart(3, "0")}/${String(
-					numChunks + 1
-				).padStart(3, "0")}`
-			) +
-			text.substring(start, start + lastChunkSize) +
-			promptList.endFinalPart.replace(
-				"002/002",
-				`${String(numChunks + 1).padStart(3, "0")}/${String(
-					numChunks + 1
-				).padStart(3, "0")}`
-			);
-		textChunks.push(finalChunk);
 
 		setChunks(textChunks);
 	};
