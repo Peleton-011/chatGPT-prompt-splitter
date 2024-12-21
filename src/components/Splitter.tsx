@@ -29,15 +29,14 @@ const Splitter = () => {
 	const [text, setText] = useState<string>("");
 	const [chunks, setChunks] = useState<string[]>([]);
 	const [chunkSize, setChunkSize] = useState<number>(15000);
-	const [selectedLanguage, setSelectedLanguage] =
-		useState<string>("autodetect");
-	const [textLanguage, setTextLanguage] = useState<string>("en");
+	const [selectedLanguage, setSelectedLanguage] = useState<string>("es"); // Default set to Spanish
+	const [textLanguage, setTextLanguage] = useState<string>("es"); // Match Spanish default
 	const [detectedLanguageName, setDetectedLanguageName] =
-		useState<string>("English");
+		useState<string>("Spanish"); // Default detection name to Spanish
 
 	const [isResponseTooShort, setIsResponseTooShort] =
 		useState<boolean>(false);
-	const [promptList, setPromptList] = useState<PromptLanguage>(prompts.en);
+	const [promptList, setPromptList] = useState<PromptLanguage>(prompts.es); // Set default prompts to Spanish
 	const [promptLengths, setPromptLengths] = useState<number[]>(
 		Array(5).fill(0)
 	);
@@ -194,7 +193,12 @@ const Splitter = () => {
 				</select>
 			</div>
 			<button onClick={splitText}>Split Text</button>
-			{isResponseTooShort && <h3>Text is too short to split! You could have sent as one chunk! 😂</h3>}
+			{isResponseTooShort && (
+				<h3>
+					Text is too short to split! You could have sent as one
+					chunk! 😂
+				</h3>
+			)}
 			<div>
 				{chunks.map((chunk, index) => (
 					<CopyButton
