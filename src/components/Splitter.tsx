@@ -187,7 +187,7 @@ const Splitter = () => {
 						<option key={index} value={lang.code}>
 							{lang.code === "autodetect"
 								? `Auto Detect (${detectedLanguageName})`
-								: lang.name}
+								: lang.native}
 						</option>
 					))}
 				</select>
