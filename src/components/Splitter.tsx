@@ -166,7 +166,7 @@ const Splitter = () => {
 	];
 
 	return (
-		<main className="container">
+		<main className="container" style={{ marginTop: "40px" }}>
 			<h1>ChatGPT 🤖 prompt Splitter</h1>
 			<textarea
 				placeholder="Enter text to split"
@@ -192,14 +192,20 @@ const Splitter = () => {
 					))}
 				</select>
 			</div>
-			<button onClick={splitText}>Split Text</button>
+			<button
+				onClick={splitText}
+				disabled={!text}
+				style={{ marginTop: "10px", marginBottom: "20px" }}
+			>
+				Split Text
+			</button>
 			{isResponseTooShort && (
 				<h3>
 					Text is too short to split! You could have sent as one
 					chunk! 😂
 				</h3>
 			)}
-			<div>
+			<div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
 				{chunks.map((chunk, index) => (
 					<CopyButton
 						key={index}
