@@ -43,7 +43,7 @@ const Splitter = () => {
 	);
 
 	const languages = [
-        ...languagesImport[0],
+		...languagesImport[0],
 		{ name: "Auto Detect", code: "autodetect", native: "Auto Detect" },
 	] as Language[];
 
@@ -104,11 +104,7 @@ const Splitter = () => {
 	const splitText = () => {
 		const textLength = text.length;
 
-		if (textLength < chunkSize) {
-			setIsResponseTooShort(true);
-		}
-
-		setIsResponseTooShort(false);
+		setIsResponseTooShort(textLength < chunkSize);
 
 		const normalChunkSize =
 			chunkSize - (promptLengths[1] + promptLengths[2]);
@@ -198,7 +194,7 @@ const Splitter = () => {
 				</select>
 			</div>
 			<button onClick={splitText}>Split Text</button>
-			{isResponseTooShort && <h3>Text is too short to split!</h3>}
+			{isResponseTooShort && <h3>Text is too short to split! You could have sent as one chunk! 😂</h3>}
 			<div>
 				{chunks.map((chunk, index) => (
 					<CopyButton
