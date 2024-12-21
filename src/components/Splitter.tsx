@@ -100,52 +100,60 @@ const Splitter = () => {
 		);
 	}, [promptList]);
 
-	const splitText = () => {
-		const textLength = text.length;
-
-		setIsResponseTooShort(textLength < chunkSize);
-
-		const normalChunkSize =
-			chunkSize - (promptLengths[1] + promptLengths[2]);
-		const lastChunkSize = chunkSize - (promptLengths[3] + promptLengths[4]);
-		const numChunks = Math.ceil(
-			(textLength - lastChunkSize) / normalChunkSize
-		);
-
-		const textChunks: string[] = [promptList.initialPrompt];
-		let start = 0;
-		let end = normalChunkSize;
-
-		for (let i = 0; i < numChunks + 1; i++) {
-			const chunk =
-				promptList[
-					i === numChunks ? "startFinalPart" : "startPart"
-				].replace(
-					/XXX\/XXX/g,
-					`${String(i + 1).padStart(3, "0")}/${String(
-						numChunks + 1
-					).padStart(3, "0")}`
-				) +
-				text.substring(
-					start,
-					i === numChunks ? start + lastChunkSize : end
-				) +
-				promptList[
-					i === numChunks ? "endFinalPart" : "endPart"
-				].replace(
-					/XXX\/XXX/g,
-					`${String(i + 1).padStart(3, "0")}/${String(
-						numChunks + 1
-					).padStart(3, "0")}`
-				);
-			textChunks.push(chunk);
-			start = end;
-			end = start + normalChunkSize;
-		}
-
-		setChunks(textChunks);
-	};
-
+    const splitText = () => {
+        const textLength = text.length;
+        setIsResponseTooShort(textLength < chunkSize);
+      
+        // Calculate sizes for different chunk types
+        const firstChunkSize = chunkSize - (promptList.initialPrompt.length + promptLengths[1] + promptLengths[2] + 1); // +1 for newline
+        const normalChunkSize = chunkSize - (promptLengths[1] + promptLengths[2]);
+        const lastChunkSize = chunkSize - (promptLengths[3] + promptLengths[4]);
+      
+        // Calculate number of chunks needed after the first chunk
+        const remainingText = text.substring(firstChunkSize);
+        const numRemainingChunks = Math.ceil(remainingText.length / normalChunkSize);
+        const totalChunks = numRemainingChunks + 1;
+      
+        // Initialize chunks array
+        const textChunks: string[] = [];
+      
+        // Create first chunk with initial prompt and standard parts
+        const firstChunk = 
+          promptList.initialPrompt + 
+          '\n' +
+          promptList.startPart.replace(/XXX\/XXX/g, `001/${String(totalChunks).padStart(3, '0')}`) +
+          text.substring(0, firstChunkSize) +
+          promptList.endPart.replace(/XXX\/XXX/g, `001/${String(totalChunks).padStart(3, '0')}`);
+        
+        textChunks.push(firstChunk);
+      
+        // Process remaining chunks
+        let start = firstChunkSize;
+        let end = start + normalChunkSize;
+      
+        for (let i = 1; i < totalChunks; i++) {
+          const isLastChunk = i === totalChunks - 1;
+          const currentChunkSize = isLastChunk ? lastChunkSize : normalChunkSize;
+          
+          const formattedPartNumber = String(i + 1).padStart(3, '0');
+          const formattedTotalParts = String(totalChunks).padStart(3, '0');
+          const partCounter = `${formattedPartNumber}/${formattedTotalParts}`;
+      
+          const chunk = 
+            promptList[isLastChunk ? "startFinalPart" : "startPart"]
+              .replace(/XXX\/XXX/g, partCounter) +
+            text.substring(start, isLastChunk ? start + currentChunkSize : end) +
+            promptList[isLastChunk ? "endFinalPart" : "endPart"]
+              .replace(/XXX\/XXX/g, partCounter);
+      
+          textChunks.push(chunk);
+          start = end;
+          end = start + normalChunkSize;
+        }
+      
+        setChunks(textChunks);
+      };
+      
 	const languageOptions = [
 		...languages.filter((language) =>
 			["autodetect", "en", "es", "ca"].includes(language.code)
