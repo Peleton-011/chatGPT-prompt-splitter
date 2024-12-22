@@ -28,7 +28,7 @@ const prompts: Prompts = promptsImport;
 const Splitter = () => {
 	const [text, setText] = useState<string>("");
 	const [chunks, setChunks] = useState<string[]>([]);
-	const [chunkSize, setChunkSize] = useState<number>(15000);
+	const chunkSize = 15000; // const [chunkSize, setChunkSize] = useState<number>(15000);
 	const [selectedLanguage, setSelectedLanguage] = useState<string>("es"); // Default set to Spanish
 	const [textLanguage, setTextLanguage] = useState<string>("es"); // Match Spanish default
 	const [detectedLanguageName, setDetectedLanguageName] =
