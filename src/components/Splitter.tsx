@@ -170,7 +170,7 @@ const Splitter = () => {
 			<textarea
 				placeholder="Enter text to split"
 				value={text}
-				onChange={(e) => setText(e.target.value)}
+				onChange={(e: { target: { value: any; }; }) => setText(e.target.value)}
 				onBlur={handleBlur}
 				rows={10}
 				cols={50}
@@ -180,7 +180,7 @@ const Splitter = () => {
 				<select
 					id="languages"
 					value={selectedLanguage}
-					onChange={(e) => setSelectedLanguage(e.target.value)}
+					onChange={(e: { target: { value: any; }; }) => setSelectedLanguage(e.target.value)}
 				>
 					{languageOptions.map((lang, index) => (
 						<option key={index} value={lang.code}>
@@ -205,7 +205,7 @@ const Splitter = () => {
 				</h3>
 			)}
 			<div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-				{chunks.map((chunk, index) => (
+				{chunks.map((chunk: any, index: number) => (
 					<CopyButton
 						key={index}
 						text={chunk}
